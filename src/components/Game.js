@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import NoteRequestService from '../services/NoteRequestService'
+import GuessSubmitService from '../services/GuessSubmitService'
 import NoteComponent from './NoteComponent'
+import Results from './Results'
 
 //The game gets the notes, plays them, and lets the user guess
 /*
@@ -14,9 +16,11 @@ class Game extends Component {
     constructor() {
         super();
         this.state = {
-            sequenceLength: 4,
+            sequenceLength: 3,
             currentSequenceID: '',
-            noteURLs: []
+            noteURLs: [],
+            guessesToSubmit: [],
+            lastResults: null
         };
         this.onGameStart = this.onGameStart.bind(this);
         this.submitGuesses = this.submitGuesses.bind(this);
@@ -30,7 +34,8 @@ class Game extends Component {
     }
 
     getNotes() {
-        let noteService = new NoteRequestService();
+        console.log(this.state)
+        let noteService = new NoteRequestService(this.state.sequenceLength);
         noteService.getNotes().then(response => {
             console.log('response received');
             console.log(response);
@@ -65,7 +70,15 @@ class Game extends Component {
 
     submitGuesses() {
         console.log(`Submitting guesses: ${this.state.guessesToSubmit}`);
-
+        let guessSubmit = new GuessSubmitService(this.state.guessesToSubmit, this.state.currentSequenceID)
+        guessSubmit.sendRequest().then(response => {
+            this.setState({
+                currentSequenceID: '',
+                lastResults: response.data,
+                noteURLs: [],
+                guessesToSubmit: []
+            })
+        })
     }
 
     guessReceivedForNote(index, note) {
@@ -90,9 +103,14 @@ class Game extends Component {
                     {noteViews}
                     {this.submitGuessesButton()}
                     </div>
-            )
+                    )
         } else {
-            return this.startButton();
+            return (
+                <div>
+                    <Results results={this.state.lastResults}/>
+                    {this.startButton()}
+                </div>
+            )
         }
     }
 

@@ -1,8 +1,11 @@
 import BasicRequest from './BasicRequest'
 
 class GuessSubmitService extends BasicRequest {
-    constructor() {
-        // super('GET', '/note/sequence?size=4');
+    constructor(notesToGuess, sequenceID) {
+        super('POST', '/note/guess', {
+            notes: notesToGuess,
+            sequenceID: sequenceID
+        });
     }
 
     getNotes() {

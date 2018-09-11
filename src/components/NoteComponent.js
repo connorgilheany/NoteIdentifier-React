@@ -83,7 +83,6 @@ class NoteComponent extends Component {
                 {this.playButton()}
                 {this.soundItem()}
                 {this.guessBox()}
-                <p>{this.props.url}</p>
             </div>
         );
     }

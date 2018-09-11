@@ -1,8 +1,8 @@
 import BasicRequest from './BasicRequest'
 
 class NoteRequestService extends BasicRequest {
-    constructor() {
-        super('GET', '/note/sequence?size=4');
+    constructor(size) {
+        super('GET', `/note/sequence?size=${size}`);
     }
 
     getNotes() {
