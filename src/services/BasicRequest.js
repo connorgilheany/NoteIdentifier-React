@@ -12,7 +12,8 @@ class BasicRequest {
     sendRequest() {
         let options = {
             method: this.method,
-            url: this.url
+            url: this.url,
+            withCredentials: true
         };
         if(this.data) {
             options.data = this.data

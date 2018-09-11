@@ -19,6 +19,7 @@ class Game extends Component {
             noteURLs: []
         };
         this.onGameStart = this.onGameStart.bind(this);
+        this.submitGuesses = this.submitGuesses.bind(this);
     }
 
     async onGameStart(event) {
@@ -35,7 +36,8 @@ class Game extends Component {
             console.log(response);
             this.setState({
                 currentSequenceID: response.data.sequenceID,
-                noteURLs: response.data.notes
+                noteURLs: response.data.notes,
+                guessesToSubmit: response.data.notes.map(() => '')
             })
         }).catch(err => {
             console.log('response error');
@@ -55,12 +57,40 @@ class Game extends Component {
         );
     }
 
+    submitGuessesButton() {
+        return (
+            <button onClick={this.submitGuesses}>Submit Guesses</button>
+        )
+    }
+
+    submitGuesses() {
+        console.log(`Submitting guesses: ${this.state.guessesToSubmit}`);
+
+    }
+
+    guessReceivedForNote(index, note) {
+        console.log(`Guessing note: ${note} for index: ${index}`);
+        let guessesToSubmit = this.state.guessesToSubmit;
+        guessesToSubmit[index] = note;
+        this.setState({
+            guessesToSubmit: guessesToSubmit
+        })
+    }
+
     gameContent() {
         if(this.isGameInProgress()) {
             let noteViews = this.state.noteURLs.map( (url, index) => {
-                return (<NoteComponent key={index} url={url}/>)
+                return (
+                    <NoteComponent key={index} url={url}
+                        guessNote={(note) => this.guessReceivedForNote(index, note)}
+                    />)
             });
-            return <div>{noteViews}</div>
+            return (
+                <div>
+                    {noteViews}
+                    {this.submitGuessesButton()}
+                    </div>
+            )
         } else {
             return this.startButton();
         }
