@@ -34,7 +34,6 @@ class Game extends Component {
     }
 
     getNotes() {
-        console.log(this.state)
         let noteService = new NoteRequestService(this.state.sequenceLength);
         noteService.getNotes().then(response => {
             console.log('response received');
@@ -70,7 +69,7 @@ class Game extends Component {
 
     submitGuesses() {
         console.log(`Submitting guesses: ${this.state.guessesToSubmit}`);
-        let guessSubmit = new GuessSubmitService(this.state.guessesToSubmit, this.state.currentSequenceID)
+        let guessSubmit = new GuessSubmitService(this.state.guessesToSubmit, this.state.currentSequenceID);
         guessSubmit.sendRequest().then(response => {
             this.setState({
                 currentSequenceID: '',

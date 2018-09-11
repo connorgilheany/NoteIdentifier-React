@@ -15,7 +15,6 @@ class NoteComponent extends Component {
         this.donePlayingSound = this.donePlayingSound.bind(this);
         this.togglePlay = this.togglePlay.bind(this);
         this.handleGuessInputChange = this.handleGuessInputChange.bind(this);
-        this.guessSubmitted = this.guessSubmitted.bind(this);
     }
 
     donePlayingSound() {
@@ -57,22 +56,16 @@ class NoteComponent extends Component {
 
     handleGuessInputChange(event) {
         this.setState({guessInput: event.target.value});
-    }
-
-    guessSubmitted(event) {
-        // console.log(`Guessing ${this.state.guessInput} for note ${this.props.url}`);
-        event.preventDefault();
-        this.props.guessNote(this.state.guessInput);
+        this.props.guessNote(event.target.value);
     }
 
     guessBox() {
         return (
-            <form onSubmit={this.guessSubmitted}>
+            <form>
                 <label>
                     Note:
                     <input type="text" value={this.state.value} onChange={this.handleGuessInputChange} />
                 </label>
-                <input type="submit" value="Submit" />
             </form>
         );
     }
