@@ -22,16 +22,14 @@ class Game extends Component {
             guessesToSubmit: [],
             lastResults: null
         };
-        this.onGameStart = this.onGameStart.bind(this);
-        this.submitGuesses = this.submitGuesses.bind(this);
     }
 
-    async onGameStart(event) {
+    onGameStart = async (event) => {
         console.log('Starting game...');
         //await this.props.beforeGameStart();
         console.log('Requesting notes...');
         this.getNotes()
-    }
+    };
 
     getNotes() {
         let noteService = new NoteRequestService(this.state.sequenceLength);
@@ -67,7 +65,7 @@ class Game extends Component {
         )
     }
 
-    submitGuesses() {
+    submitGuesses = () => {
         console.log(`Submitting guesses: ${this.state.guessesToSubmit}`);
         let guessSubmit = new GuessSubmitService(this.state.guessesToSubmit, this.state.currentSequenceID);
         guessSubmit.sendRequest().then(response => {
@@ -78,7 +76,7 @@ class Game extends Component {
                 guessesToSubmit: []
             })
         })
-    }
+    };
 
     guessReceivedForNote(index, note) {
         console.log(`Guessing note: ${note} for index: ${index}`);

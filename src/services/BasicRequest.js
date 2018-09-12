@@ -5,7 +5,7 @@ let lhendpoint = 'http://localhost:3000';
 
 class BasicRequest {
     constructor(method, path, data) {
-        this.url = `${endpoint}${path}`;
+        this.url = `${lhendpoint}${path}`;
         this.method = method;
         if(data) {
             this.data = data;

@@ -12,17 +12,14 @@ class NoteComponent extends Component {
             isPlaying: false,
             guessInput: ''
         };
-        this.donePlayingSound = this.donePlayingSound.bind(this);
-        this.togglePlay = this.togglePlay.bind(this);
-        this.handleGuessInputChange = this.handleGuessInputChange.bind(this);
     }
 
-    donePlayingSound() {
+    donePlayingSound = () => {
         console.log(`Done playing ${this.props.url}`);
         this.setState({
             isPlaying: false
         })
-    }
+    };
 
     playButton() {
         return (
@@ -32,11 +29,11 @@ class NoteComponent extends Component {
         );
     }
 
-    togglePlay() {
+    togglePlay = () => {
         this.setState({
             isPlaying: !this.state.isPlaying
         })
-    }
+    };
 
     getPlayingStatusString() {
         return this.state.isPlaying ? "Note Playing..." : "Play Note"
@@ -54,10 +51,10 @@ class NoteComponent extends Component {
         );
     }
 
-    handleGuessInputChange(event) {
+    handleGuessInputChange = (event) => {
         this.setState({guessInput: event.target.value});
         this.props.guessNote(event.target.value);
-    }
+    };
 
     guessBox() {
         return (
